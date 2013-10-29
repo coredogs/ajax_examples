@@ -33,10 +33,13 @@
       $("#spinner").show();
     });
     //Triggered when Ajax Ends. Hide the processing indicator.
-    $(document).ajaxStart(function() {
+    $(document).ajaxStop(function() {
       $("#spinner").hide();
     });    
     $("#show-button").click(function(){
+      //Erase what is showing.
+      $("#description").html("");
+      $("#photo").attr("src", "");
       $.getJSON(
           "../server/choose_random_photo.php",
           function( photo ) {
