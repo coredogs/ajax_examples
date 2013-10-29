@@ -24,6 +24,10 @@
 </div><!-- /page -->
 <script>
   $(document).ready(function(){
+$(document).bind("mobileinit", function() {
+  $.mobile.loadingMessage = 'Please wait';
+});
+    
     $("#show-button").click(function(){
       $.getJSON(
           "../server/choose_random_photo.php",
