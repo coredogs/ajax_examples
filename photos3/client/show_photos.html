@@ -1,0 +1,49 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Show photos</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+</head> 
+<body> 
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>Show photos</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+    <div id="output-area"></div>
+	</div><!-- /content -->
+
+</div><!-- /page -->
+<script>
+  $(document).ready(function(){
+    //Get the photo count.
+    $.getJSON(
+        "../server/photo_server.php?command=count",
+        function ( result ) {
+          var num_photos = result.count;
+          var id;
+          //Loop. Repeat some code, changing the value of the variable id
+          //each time through. id starts at 0, and ends at num_photos - 1.
+          for ( id = 0; id < num_photos; id++ ) {
+            $.getJSON(
+              "../server/photo_server.php?command=fetch&id=" + id,
+              function ( photo ) {
+                var photo_html = 
+                      "<p>" + photo.description + "</p>"
+                    + "<p><img src='../server/images/" + photo.file_name + "'></p>";
+                $("#output-area").append(photo_html);
+              }
+            ); //End get.
+          } //End for loop.
+        }
+    ); //End get.
+  });
+</script>
+</body>
+</html>

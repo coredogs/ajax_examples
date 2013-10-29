@@ -1,0 +1,43 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Show photo</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+</head> 
+<body> 
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>Show photo</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+    <label for="basic">Photo id:</label>
+    <input type="text" name="id" id="id" value=""  />    
+		<p><a id="show-button" href="#" data-role="button">Show photo</a></p>
+    <p id="description"></p>
+    <p><img id="photo"></p>
+	</div><!-- /content -->
+
+</div><!-- /page -->
+<script>
+  $(document).ready(function(){
+    $("#show-button").click(function(){
+      $.getJSON(
+          "../server/fetch_photo.php?id=" + $("#id").val(),
+          function( photo ) {
+            var file_name = photo.file_name;
+            var description = photo.description;
+            $("#description").html(description);
+            $("#photo").attr("src", "../server/images/" + file_name);
+          }
+      )
+    });
+  });
+</script>
+</body>
+</html>
