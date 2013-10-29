@@ -4,6 +4,7 @@
 	<title>Show photo</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+  <link rel="stylesheet" href="styles.css" />
 	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
 </head> 
@@ -24,9 +25,28 @@
 	</div><!-- /content -->
 
 </div><!-- /page -->
+
+<!-- Indicator to show that background processing is happening. -->
+<div id="spinner" class="spinner" style="display:none;">
+    <img id="img-spinner" src="ajax-loader.gif" alt="Loading"/>
+</div>
+
 <script>
   $(document).ready(function(){
+    //Triggered when Ajax starts. Show the processing indicator.
+    $(document).ajaxStart(function() {
+      $("#spinner").show();
+    });
+    //Triggered when Ajax ends. Hide the processing indicator.
+    $(document).ajaxStop(function() {
+      $("#spinner").hide();
+    });
+    //Put cursor in input field.
+    $("#id").focus();
     $("#show-button").click(function(){
+      //Erase what is showing.
+      $("#description").html("");
+      $("#photo").attr("src", "");
       $.getJSON(
           "../server/fetch_photo.php?id=" + $("#id").val(),
           function( photo ) {
@@ -34,6 +54,8 @@
             var description = photo.description;
             $("#description").html(description);
             $("#photo").attr("src", "../server/images/" + file_name);
+            //Put cursor in input field.
+            $("#id").select();
           }
       )
     });

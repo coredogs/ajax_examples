@@ -3,6 +3,9 @@
  * Return the file name and description of a particular photo.
  */
 
+//Wait for a second. Simulates processing delay.
+sleep(1);
+
 //Load the data array.
 require( 'load_image_data.php' );
 
