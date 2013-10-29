@@ -16,18 +16,26 @@
 	</div><!-- /header -->
 
 	<div data-role="content">	
-		<p><a id="show-button" href="#" data-role="button">Show photo</a></p>
+    <p><a id="show-button" href="#" data-role="button">Show photo</a></p>
+    <!-- Indicator to show that background processing is happening. -->
+    <div id="spinner" class="spinner" style="display:none;">
+        <img id="img-spinner" src="ajax-loader.gif" alt="Loading"/>
+    </div>
     <p id="description"></p>
     <p><img id="photo"></p>
 	</div><!-- /content -->
-
+  
 </div><!-- /page -->
 <script>
   $(document).ready(function(){
-$(document).bind("mobileinit", function() {
-  $.mobile.loadingMessage = 'Please wait';
-});
-    
+    //Triggered when Ajax starts. Show the processing indicator.
+    $(document).ajaxStart(function() {
+      $("#spinner").show();
+    });
+    //Triggered when Ajax Ends. Hide the processing indicator.
+    $(document).ajaxStart(function() {
+      $("#spinner").hide();
+    });    
     $("#show-button").click(function(){
       $.getJSON(
           "../server/choose_random_photo.php",
