@@ -1,0 +1,42 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Not our client</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+</head> 
+<body> 
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>Not our client</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+    <p><a id="click-me" href="#" data-role="button">Show something</a></p>
+    <p id="dog-name"></p>
+    <p id="dog-description"></p>
+	</div><!-- /content -->
+  
+</div><!-- /page -->
+
+<script>
+  $(document).ready(function(){
+    $("#click-me").click(function(){
+      $.getJSON(
+          "simple_server.php",
+          function( data ) {
+            $("#dog-name").html(data.name);
+            $("#dog-description").html(data.description);
+          }
+      )
+    });
+  });
+</script>
+
+</body>
+</html>
