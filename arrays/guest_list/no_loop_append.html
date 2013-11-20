@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>No loop append</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  </head>
+  <body>
+    <div>No loop append</div>
+    <script>
+      var guestList = [
+        { name: "Alex", address: "283 Happy Lane" },
+        { name: "Avery", address: "32 Skippy Skip" },
+        { name: "Pat", address: "666 Heaven St." },
+        { name: "Bobbie", address: "83 Quality St." },
+        { name: "Parker", address: "92 Batty Bat" }
+      ];
+      $(document).ready( function() {
+        var pointer = 0;
+        $("body").append( "<p>" + guestList[pointer].name + "</p>");
+        $("body").append( "<p>" + guestList[pointer].address + "</p>");
+        pointer ++;
+        $("body").append( "<p>" + guestList[pointer].name + "</p>");
+        $("body").append( "<p>" + guestList[pointer].address + "</p>");
+        pointer ++;
+      });
+    </script>
+  </body>
+</html>
+
+
+	
+	
+	
+	
+	

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Address label</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+      .label {
+        margin: 2em;
+        padding: 1em;
+        border: solid 1px black;
+        border-radius: 1em;
+        float: left;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Address label</h1>
+    <div class="label">
+      <p>
+        <span id="first-name"></span> <span id="last-name"></span>
+      </p>
+      <p id="address"></p>
+    </div>
+    <script>
+      $(document).ready(function(){
+        //Input data from user.
+        var lastNameInput = prompt("Last name?");
+        var firstNameInput = prompt("First name?");
+        var addressInput = prompt("Address?");
+        //Put into an object.
+        var person = {
+          lastName: lastNameInput,
+          firstName: firstNameInput,
+          address: addressInput
+        };
+        //Create the label.
+        $("#last-name").text(person.lastName);
+        $("#first-name").text(person.firstName);
+        $("#address").text(person.address);
+      });
+    </script>
+  </body>
+</html>

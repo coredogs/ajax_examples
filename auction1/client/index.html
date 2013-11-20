@@ -1,0 +1,124 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Auction</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+</head> 
+<body> 
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>Auction</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+    <p>
+      Here are our current items and bids. Click a Bid button to
+      submit your own bid.
+    </p>
+    <div id="output-area"></div>
+    <div id="bid-area">
+      <p>Please enter your bid and email address.</p>
+      <label for="bid">Bid amount:</label>
+      <input type="number" name="bid" id="bid" value=""  />
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" value=""  />
+      <input type="hidden" id="item-id" name="item-id" />
+      <a href="#" id="submit-bid" data-role="button" data-inline="true"
+         data-item-id='3' >Submit</a>
+      <p id="bid-response-container">
+        <span id="bid-response"></span>
+        <a href="#" id="continue" data-role="button">Continue</a>
+      </p>
+    </div>
+	</div><!-- /content -->
+
+</div><!-- /page -->
+
+<!-- Indicator to show that background processing is happening. -->
+<div id="spinner" class="spinner" style="display:none;">
+    <img id="img-spinner" src="ajax-loader.gif" alt="Loading"/>
+</div>
+
+<script>
+  $(document).on('pageinit', function(){
+    //Hide the bid inputs.
+    $("#bid-response-container").hide();
+    $("#bid-area").hide();
+    //Triggered when Ajax starts. Show the processing indicator.
+    $(document).ajaxStart(function() {
+      $("#spinner").show();
+    });
+    //Triggered when Ajax ends. Hide the processing indicator.
+    $(document).ajaxStop(function() {
+      $("#spinner").hide();
+    });    
+    //Get the item count.
+    $.getJSON(
+      "../server/auction_server.php?command=count",
+      function ( result ) {
+        var num_items = result.count;
+        var id;
+        //Loop. Repeat some code, changing the value of the variable id
+        //each time through. id starts at 0, and ends at num_items - 1.
+        for ( id = 0; id < num_items; id++ ) {
+          $.getJSON(
+            "../server/auction_server.php?command=fetch&id=" + id,
+            function ( item ) {
+              var item_html =
+                  "<div class='ui-body ui-body-b'>"
+                  + "<h3>" + item.description + "</h3>"
+                  + "<p>Current bid: " + item.highest_bid + "</p>"
+                  + "<p><a href='#' class='bid-button' data-role='button' "
+                  +     "id='bid-button-" + item.id + "'"
+                  +     "data-inline='true' "
+                  +     "data-item-id='" + item.id + "'>Bid</a></p>"
+                  + "</div>";
+              $("#output-area").append(item_html);
+              //Do this after all of the bid buttons have been created. 
+              if ( item.id == (num_items - 1) ) {
+                $(".bid-button").on('click', function() {
+                  var item_id = $(this).attr("data-item-id");
+                  //Save the id in a hidden form field for later.
+                  $("#item-id").val( item_id );
+                  //Move the bid form into place, after the item to bid on.
+                  $("#bid-button-" + item_id).after($("#bid-area"));
+                  //Show the bid form.
+                  $("#bid-area").show('fast');
+                });
+                //Necessary so jQM will render the new button.
+                $("#output-area").trigger('create');
+              }
+            }
+          ); //End get item.
+        } //End for loop.
+      } //End function called on return from get count.
+    ); //End get count call.
+    $("#submit-bid").click(function() {
+      var item_id = $("#item-id").val();
+      var bid = $("#bid").val();
+      var email = $("#email").val();
+      $.getJSON(
+        "../server/auction_server.php?command=bid&id=" + item_id
+          + "&bid=" + bid
+          + "&bid_contact=" + encodeURI(email),
+        function ( returned ) {
+          $("#bid-response").html( returned.response );
+          $("#bid-response-container").show('fast');
+        }
+      );
+      
+    });
+    $("#continue").click(function(){
+      location.reload();
+    });
+  });
+
+</script>
+</body>
+</html>

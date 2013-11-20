@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mailing labels</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+      .label {
+        margin: 2em;
+        padding: 1em;
+        border: solid 1px black;
+        border-radius: 1em;
+        float: left;
+        clear: both;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Mailing labels</h1>
+    <script>
+      var guestList = [
+        { name: "Alex", address: "283 Happy Lane" },
+        { name: "Avery", address: "32 Skippy Skip" },
+        { name: "Pat", address: "666 Heaven St." },
+        { name: "Bobbie", address: "83 Quality St." },
+        { name: "Parker", address: "92 Batty Bat" }
+      ];
+      $(document).ready(function() {
+        for ( pointer=0; pointer < guestList.length; pointer++ ) {
+          labelHtml = 
+              "<div class='label'>"
+            +   "<p>" + guestList[pointer].name + "</p>"
+            +   "<p>" + guestList[pointer].address + "</p>"
+            + "</div>";
+          $("body").append(labelHtml);
+        }
+      });
+    </script>
+  </body>
+</html>
+
+
+	
+	
+	
+	
+	
